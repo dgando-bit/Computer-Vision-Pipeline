@@ -1,0 +1,36 @@
+services:
+
+  # ─── Training ───────────────────────────────────────────────────────────────
+  dl:
+    build:
+      context: .
+      dockerfile: dl/Dockerfile
+      target: training
+    env_file: .env
+    volumes:
+      - ./dl:/app/dl
+    command: python dl/src/main.py
+
+  # ─── Jupyter ────────────────────────────────────────────────────────────────
+  jupyter:
+    build:
+      context: .
+      dockerfile: dl/Dockerfile
+      target: jupyter
+    env_file: .env
+    environment:
+      JUPYTER_TOKEN: ${JUPYTER_TOKEN}
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./dl:/app/dl
+      - ./dl/experiments:/app/experiments
+    user: "1000:1000"
+    command: >
+      jupyter lab
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --notebook-dir=/app
+      --IdentityProvider.token=${JUPYTER_TOKEN}
+    restart: unless-stopped
