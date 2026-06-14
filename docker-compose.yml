@@ -9,6 +9,7 @@ services:
     env_file: .env
     volumes:
       - ./dl:/app/dl
+      - ./data:/app/data
     command: python dl/src/main.py
 
   # ─── Jupyter ────────────────────────────────────────────────────────────────
@@ -25,6 +26,7 @@ services:
     volumes:
       - ./dl:/app/dl
       - ./dl/experiments:/app/experiments
+      - ./data:/app/data
     user: "1000:1000"
     command: >
       jupyter lab
