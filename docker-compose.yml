@@ -25,7 +25,7 @@ services:
       - "8888:8888"
     volumes:
       - ./dl:/app/dl
-      - ./dl/experiments:/app/experiments
+#      - ./dl/experiments:/app/experiments
       - ./data:/app/data
     user: "1000:1000"
     command: >
